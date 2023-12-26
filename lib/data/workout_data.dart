@@ -13,8 +13,8 @@ class WorkoutData extends ChangeNotifier {
 
   // List of all completed workouts
   List<Workout> workoutList = [
-    Workout(name: 'Push', exercises: []),
-    Workout(name: 'Pull', exercises: [])
+    Workout(name: 'Push', date: '12/26/23', exercises: []),
+    Workout(name: 'Pull', date: '12/27/23', exercises: [])
   ];
 
   // METHODS
@@ -22,8 +22,8 @@ class WorkoutData extends ChangeNotifier {
     return workoutList;
   }
 
-  void addWorkout(String name) {
-    workoutList.add(Workout(name: name, exercises: []));
+  void addWorkout(String name, String date) {
+    workoutList.add(Workout(name: name, date: date, exercises: []));
 
     notifyListeners();
   }

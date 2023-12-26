@@ -23,22 +23,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 centerTitle: true, title: const Text('S I M P L E S E T')),
             body: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: MyTextField(
-                          hintText: 'Name the workout!',
-                          obscureText: false,
-                          controller: workoutNameController),
-                    ),
-                    GoButton(onTap: () {})
-                  ],
+                Container(
+                  padding: const EdgeInsets.only(
+                      top: 50, bottom: 50, right: 25, left: 25),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: MyTextField(
+                            hintText: 'Name a new workout!',
+                            obscureText: false,
+                            controller: workoutNameController),
+                      ),
+                      const SizedBox(width: 10),
+                      GoButton(onTap: () {})
+                    ],
+                  ),
                 ),
                 Expanded(
                   child: ListView.builder(
                       itemCount: value.getWorkoutList().length,
                       itemBuilder: (context, index) => MyListTile(
                             title: value.getWorkoutList()[index].name,
+                            subtitle:
+                                value.getWorkoutList()[index].date.toString(),
                           )),
                 ),
               ],
