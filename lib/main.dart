@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpleset_app/data/workout_data.dart';
-import 'package:simpleset_app/screens/home_screen.dart';
+import 'package:simpleset_app/screens/app_wrapper.dart';
 import 'package:simpleset_app/themes.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: darkMode,
           darkTheme: darkMode,
-          home: HomeScreen()),
+          home: AppWrapper()),
     );
   }
 }

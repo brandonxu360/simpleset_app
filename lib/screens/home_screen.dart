@@ -19,13 +19,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer<WorkoutData>(
         builder: (context, value, child) => Scaffold(
-            appBar: AppBar(
-                centerTitle: true, title: const Text('S I M P L E S E T')),
-            body: Column(
+                body: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(
-                      top: 50, bottom: 50, right: 25, left: 25),
+                  padding: const EdgeInsets.only(top: 25, left: 25, bottom: 5),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Start a new workout',
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 50, right: 25, left: 25),
                   child: Row(
                     children: [
                       Expanded(
@@ -35,8 +40,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             controller: workoutNameController),
                       ),
                       const SizedBox(width: 10),
-                      GoButton(onTap: () {})
+                      GoButton(onTap: () {
+                        value.addWorkout(
+                            workoutNameController.text, 'dateValue');
+                        workoutNameController.clear();
+                      })
                     ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 25, bottom: 5),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    'Recent workouts',
                   ),
                 ),
                 Expanded(
@@ -46,6 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: value.getWorkoutList()[index].name,
                             subtitle:
                                 value.getWorkoutList()[index].date.toString(),
+                            deleteFunction: (context) {
+                              value.deleteWorkout(index);
+                            },
                           )),
                 ),
               ],

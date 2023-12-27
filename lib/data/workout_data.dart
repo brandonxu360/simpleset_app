@@ -28,6 +28,12 @@ class WorkoutData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteWorkout(int index) {
+    workoutList.removeAt(index);
+
+    notifyListeners();
+  }
+
   void addExerciseSet(String workoutName, String exerciseName, int setNum,
       double weight, int reps) {}
 }
