@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/go_button.dart';
-import 'package:simpleset_app/components/my_listtile.dart';
+import 'package:simpleset_app/components/my_list_tile.dart';
 import 'package:simpleset_app/components/my_textfield.dart';
 import 'package:simpleset_app/data/workout_data.dart';
+import 'package:simpleset_app/screens/new_workout_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,15 +36,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: MyTextField(
-                            hintText: 'Name a new workout!',
-                            obscureText: false,
-                            controller: workoutNameController),
+                          hintText: 'Name a new workout!',
+                          obscureText: false,
+                          controller: workoutNameController,
+                          showIcon: false,
+                          icon: const Icon(Icons.add),
+                        ),
                       ),
                       const SizedBox(width: 10),
                       GoButton(onTap: () {
-                        value.addWorkout(
-                            workoutNameController.text, 'dateValue');
-                        workoutNameController.clear();
+                        if (workoutNameController.text != '') {
+                          String workoutName = workoutNameController.text;
+                          DateTime date = DateTime.now();
+                          workoutNameController.clear();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NewWorkoutScreen(
+                                  workoutName: workoutName,
+                                  date: date,
+                                ),
+                              ));
+                        } else {
+                          // TODO: REQUIRE NONEMPTY NAME
+                        }
+                        // Unfocus textfield upon returning to Homepage from other pages
+                        FocusManager.instance.primaryFocus?.unfocus();
                       })
                     ],
                   ),

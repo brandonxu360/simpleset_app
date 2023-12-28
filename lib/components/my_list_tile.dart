@@ -30,16 +30,16 @@ class MyListTile extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(12)),
           child: ListTile(
             title: Text(
               title,
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
             ),
             subtitle: Text(
               subtitle,
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
             ),
           ),
         ),

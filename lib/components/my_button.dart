@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class GoButton extends StatelessWidget {
+class MyButton extends StatelessWidget {
+  final String label;
+  final Icon icon;
   final void Function()? onTap;
-  const GoButton({super.key, required this.onTap});
+  const MyButton(
+      {super.key,
+      required this.label,
+      required this.icon,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +20,9 @@ class GoButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(left: 10),
-        child: Center(
-            child: Icon(Icons.arrow_forward_ios_rounded,
-                color: Theme.of(context).colorScheme.inversePrimary)),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [icon, Text(label)]),
       ),
     );
   }

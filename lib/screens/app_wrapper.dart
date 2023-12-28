@@ -14,7 +14,11 @@ class AppWrapper extends StatefulWidget {
 class _AppWrapperState extends State<AppWrapper> {
   int screenIndex = 0;
 
-  final screens = [HomeScreen(), AnalyticsScreen(), ProfileScreen()];
+  final screens = [
+    const HomeScreen(),
+    const AnalyticsScreen(),
+    const ProfileScreen()
+  ];
 
   final appBars = const [
     Text('S I M P L E S E T'),
@@ -35,36 +39,40 @@ class _AppWrapperState extends State<AppWrapper> {
         children: screens,
       ),
       bottomNavigationBar: Container(
-        color: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 5),
-        child: GNav(gap: 8, backgroundColor: Colors.black, tabs: [
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
-            onPressed: () {
-              setState(() {
-                screenIndex = 0;
-              });
-            },
-          ),
-          GButton(
-            icon: Icons.auto_graph_rounded,
-            text: 'Analytics',
-            onPressed: () {
-              setState(() {
-                screenIndex = 1;
-              });
-            },
-          ),
-          GButton(
-              icon: Icons.person,
-              text: 'Profile',
-              onPressed: () => {
-                    setState(() {
-                      screenIndex = 2;
-                    }),
-                  }),
-        ]),
+        color: Theme.of(context).colorScheme.primary,
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: GNav(
+            gap: 8,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            activeColor: Theme.of(context).colorScheme.inversePrimary,
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                onPressed: () {
+                  setState(() {
+                    screenIndex = 0;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.auto_graph_rounded,
+                text: 'Analytics',
+                onPressed: () {
+                  setState(() {
+                    screenIndex = 1;
+                  });
+                },
+              ),
+              GButton(
+                  icon: Icons.person,
+                  text: 'Profile',
+                  onPressed: () => {
+                        setState(() {
+                          screenIndex = 2;
+                        }),
+                      }),
+            ]),
       ),
     );
   }

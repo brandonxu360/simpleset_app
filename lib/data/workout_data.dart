@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simpleset_app/models/workout.dart';
+import 'package:simpleset_app/models/exercise.dart';
 
 class WorkoutData extends ChangeNotifier {
   /*
@@ -15,6 +16,12 @@ class WorkoutData extends ChangeNotifier {
   List<Workout> workoutList = [
     Workout(name: 'Push', date: '12/26/23', exercises: []),
     Workout(name: 'Pull', date: '12/27/23', exercises: [])
+  ];
+
+  // List of exercise history
+  List<Exercise> exerciseList = [
+    Exercise(name: 'Pushup', sets: []),
+    Exercise(name: 'Barbell Squat', sets: [])
   ];
 
   // METHODS
