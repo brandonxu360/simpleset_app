@@ -14,5 +14,5 @@ class Workout extends ChangeNotifier {
       : this(
             name: workout.name,
             date: workout.date,
-            exercises: workout.exercises);
+            exercises: List<Exercise>.from(workout.exercises));
 }

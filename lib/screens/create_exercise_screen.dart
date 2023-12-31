@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:simpleset_app/components/exercise_tile.dart';
 import 'package:simpleset_app/components/my_back_button.dart';
 import 'package:simpleset_app/components/my_button.dart';
 import 'package:simpleset_app/components/search_textfield.dart';
@@ -30,7 +29,7 @@ class _SearchExerciseScreenState extends State<CreateExercise> {
                 padding: const EdgeInsets.only(
                     top: 50, left: 25, right: 25, bottom: 40),
                 child: Row(children: [
-                  const MyBackButton(),
+                  MyBackButton(onTap: () => Navigator.pop(context)),
                   const SizedBox(width: 25),
                   Expanded(
                       child: SearchTextField(
@@ -54,8 +53,8 @@ class _SearchExerciseScreenState extends State<CreateExercise> {
             Expanded(
               child: ListView.builder(
                 itemCount: searchResults.length,
-                itemBuilder: (context, index) => ExerciseTile(
-                  exerciseName: searchResults[index].name,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(searchResults[index].name),
                 ),
               ),
             ),

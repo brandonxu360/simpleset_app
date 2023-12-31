@@ -8,14 +8,16 @@ import 'package:simpleset_app/models/workout.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/screens/create_exercise_screen.dart';
-import 'package:simpleset_app/util/helper_functions.dart';
 
 class NewWorkoutScreen extends StatefulWidget {
   final String workoutName;
-  final DateTime date;
+  final String date;
 
-  const NewWorkoutScreen(
-      {super.key, required this.workoutName, required this.date});
+  const NewWorkoutScreen({
+    super.key,
+    required this.workoutName,
+    required this.date,
+  });
 
   @override
   State<NewWorkoutScreen> createState() => _NewWorkoutScreenState();
@@ -29,10 +31,16 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
           Scaffold(
         body: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
+            padding:
+                const EdgeInsets.only(top: 50, left: 25, right: 25, bottom: 20),
             child: Row(
               children: [
-                const MyBackButton(),
+                MyBackButton(
+                  onTap: () {
+                    newWorkoutProvider.clear();
+                    Navigator.pop(context);
+                  },
+                ),
                 const SizedBox(width: 25),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +48,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                     Text(widget.workoutName,
                         style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 24)),
-                    Text(formatDateTime(widget.date)),
+                    Text(widget.date),
                   ],
                 ),
                 const Spacer(),
@@ -64,8 +72,8 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
             child: ListView.builder(
               itemCount: newWorkoutProvider.getNewWorkout().exercises.length,
               itemBuilder: (context, index) => ExerciseTile(
-                exerciseName:
-                    newWorkoutProvider.getNewWorkout().exercises[index].name,
+                exercise: newWorkoutProvider.getNewWorkout().exercises[index],
+                index: index,
               ),
             ),
           ),

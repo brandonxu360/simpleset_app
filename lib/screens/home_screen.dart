@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/go_button.dart';
-import 'package:simpleset_app/components/my_list_tile.dart';
 import 'package:simpleset_app/components/my_textfield.dart';
+import 'package:simpleset_app/components/wokout_tile.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
-import 'package:simpleset_app/screens/new_workout_screen.dart';
+import 'package:simpleset_app/screens/_new_workout_screen.dart';
+import 'package:simpleset_app/screens/existing_workout_screen.dart';
 import 'package:simpleset_app/util/helper_functions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       GoButton(onTap: () {
                         if (workoutNameController.text != '') {
                           String workoutName = workoutNameController.text;
-                          DateTime date = DateTime.now();
+                          String date = formatDateTime(DateTime.now());
 
                           newWorkoutProvider.setName(workoutName);
-                          newWorkoutProvider.setDate(formatDateTime(date));
+                          newWorkoutProvider.setDate(date);
 
                           workoutNameController.clear();
                           Navigator.push(
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: ListView.builder(
                       itemCount: workoutListProvider.getWorkoutList().length,
-                      itemBuilder: (context, index) => MyListTile(
+                      itemBuilder: (context, index) => WorkoutTile(
                             title: workoutListProvider
                                 .getWorkoutList()[index]
                                 .name,
@@ -95,6 +96,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .toString(),
                             deleteFunction: (context) {
                               workoutListProvider.deleteWorkout(index);
+                            },
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      settings: const RouteSettings(
+                                          name: 'NewWorkoutScreen'),
+                                      builder: (context) =>
+                                          ExistingWorkoutScreen(index: index)));
                             },
                           )),
                 ),

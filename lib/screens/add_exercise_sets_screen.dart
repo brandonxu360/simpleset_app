@@ -27,7 +27,7 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
   void _scrollDown() {
     _controller.animateTo(
       _controller.position.maxScrollExtent,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 1),
       curve: Curves.fastOutSlowIn,
     );
   }
@@ -65,9 +65,11 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
                 itemCount: newSetList.length,
                 controller: _controller,
                 itemBuilder: (context, index) => ExerciseSetTile(
-                    setListLength: newSetList.length,
-                    myIndex: index,
-                    mySet: newSetList[index]),
+                  setListLength: newSetList.length,
+                  myIndex: index,
+                  mySet: newSetList[index],
+                  roundTop: true,
+                ),
               ),
             ),
             Padding(
