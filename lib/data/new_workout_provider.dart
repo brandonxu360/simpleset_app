@@ -11,7 +11,7 @@ class NewWorkoutProvider extends ChangeNotifier {
 
   */
 
-  Workout _newWorkout = Workout(name: '', date: '', exercises: []);
+  final Workout _newWorkout = Workout(name: '', date: '', exercises: []);
 
   Workout getNewWorkout() {
     return _newWorkout;
@@ -29,5 +29,11 @@ class NewWorkoutProvider extends ChangeNotifier {
     _newWorkout.exercises.add(Exercise(name: name, sets: sets));
 
     notifyListeners();
+  }
+
+  void clear() {
+    _newWorkout.name = '';
+    _newWorkout.date = '';
+    _newWorkout.exercises.clear();
   }
 }

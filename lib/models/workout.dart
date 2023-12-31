@@ -8,4 +8,11 @@ class Workout extends ChangeNotifier {
   final List<Exercise> exercises;
 
   Workout({required this.name, required this.date, required this.exercises});
+
+  // Copy constructor
+  Workout.copy(Workout workout)
+      : this(
+            name: workout.name,
+            date: workout.date,
+            exercises: workout.exercises);
 }

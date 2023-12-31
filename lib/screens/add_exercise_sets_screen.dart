@@ -27,7 +27,7 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
   void _scrollDown() {
     _controller.animateTo(
       _controller.position.maxScrollExtent,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 3),
       curve: Curves.fastOutSlowIn,
     );
   }
@@ -61,29 +61,15 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
               ),
             ),
             Expanded(
-                child: ListView.builder(
-              itemCount: newSetList.length,
-              controller: _controller,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: newSetList.length == 1
-                          ? BorderRadius.circular(12)
-                          : index == 0
-                              ? const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12))
-                              : index == newSetList.length - 1
-                                  ? const BorderRadius.only(
-                                      bottomLeft: Radius.circular(12),
-                                      bottomRight: Radius.circular(12))
-                                  : BorderRadius.circular(0),
-                    ),
-                    child: ExerciseSetTile(mySet: newSetList[index])),
+              child: ListView.builder(
+                itemCount: newSetList.length,
+                controller: _controller,
+                itemBuilder: (context, index) => ExerciseSetTile(
+                    setListLength: newSetList.length,
+                    myIndex: index,
+                    mySet: newSetList[index]),
               ),
-            )),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Row(
@@ -150,8 +136,11 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
                           date: DateTime.now(),
                           weight: newWeight,
                           reps: newReps));
+
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _scrollDown();
+                      });
                     });
-                    _scrollDown();
                     repTextController.clear();
                   }),
             ),

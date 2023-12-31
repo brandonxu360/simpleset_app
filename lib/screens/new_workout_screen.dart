@@ -4,6 +4,7 @@ import 'package:simpleset_app/components/my_button.dart';
 import 'package:simpleset_app/components/exercise_tile.dart';
 import 'package:simpleset_app/components/my_back_button.dart';
 import 'package:simpleset_app/components/save_button.dart';
+import 'package:simpleset_app/models/workout.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/screens/create_exercise_screen.dart';
@@ -45,8 +46,9 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                 const Spacer(),
                 SaveButton(
                   onTap: () {
-                    workoutListProvider
-                        .addWorkout(newWorkoutProvider.getNewWorkout());
+                    workoutListProvider.addWorkout(
+                        Workout.copy(newWorkoutProvider.getNewWorkout()));
+                    newWorkoutProvider.clear();
                     Navigator.pop(context);
                   },
                 )
