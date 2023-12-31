@@ -5,8 +5,8 @@ import 'package:simpleset_app/components/my_textfield.dart';
 import 'package:simpleset_app/components/wokout_tile.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
-import 'package:simpleset_app/screens/_new_workout_screen.dart';
-import 'package:simpleset_app/screens/existing_workout_screen.dart';
+import 'package:simpleset_app/models/workout.dart';
+import 'package:simpleset_app/screens/workout_screen.dart';
 import 'package:simpleset_app/util/helper_functions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,11 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                settings: const RouteSettings(
-                                    name: 'NewWorkoutScreen'),
-                                builder: (context) => NewWorkoutScreen(
-                                  workoutName: workoutName,
-                                  date: date,
+                                settings:
+                                    const RouteSettings(name: 'WorkoutScreen'),
+                                builder: (context) => WorkoutScreen(
+                                  workout: Workout(
+                                    name: workoutName,
+                                    date: date,
+                                    exercises: [],
+                                  ),
+                                  index: null,
                                 ),
                               ));
                         } else {
@@ -102,9 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                       settings: const RouteSettings(
-                                          name: 'NewWorkoutScreen'),
-                                      builder: (context) =>
-                                          ExistingWorkoutScreen(index: index)));
+                                          name: 'WorkoutScreen'),
+                                      builder: (context) => WorkoutScreen(
+                                          workout: workoutListProvider
+                                              .getWorkoutList()[index],
+                                          index: index)));
                             },
                           )),
                 ),

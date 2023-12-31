@@ -165,7 +165,7 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
                         newWorkoutProvider.addExercise(
                             widget.exerciseName, newSetList);
                         Navigator.popUntil(
-                            context, ModalRoute.withName('NewWorkoutScreen'));
+                            context, ModalRoute.withName('WorkoutScreen'));
                       }),
                 ),
               ]),

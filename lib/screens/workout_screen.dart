@@ -9,21 +9,26 @@ import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/screens/create_exercise_screen.dart';
 
-class NewWorkoutScreen extends StatefulWidget {
-  final String workoutName;
-  final String date;
+class WorkoutScreen extends StatefulWidget {
+  final Workout workout;
+  final int? index; // Null if new workout
 
-  const NewWorkoutScreen({
-    super.key,
-    required this.workoutName,
-    required this.date,
-  });
+  const WorkoutScreen({super.key, required this.workout, required this.index});
 
   @override
-  State<NewWorkoutScreen> createState() => _NewWorkoutScreenState();
+  State<WorkoutScreen> createState() => _NewWorkoutScreenState();
 }
 
-class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
+class _NewWorkoutScreenState extends State<WorkoutScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the newWorkoutProvider with the provided workout
+    Provider.of<NewWorkoutProvider>(context, listen: false)
+        .getNewWorkout()
+        .replaceWith(widget.workout);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<WorkoutListProvider, NewWorkoutProvider>(
@@ -45,17 +50,24 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.workoutName,
+                    Text(widget.workout.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 24)),
-                    Text(widget.date),
+                    Text(widget.workout.date),
                   ],
                 ),
                 const Spacer(),
                 SaveButton(
                   onTap: () {
-                    workoutListProvider.addWorkout(
-                        Workout.copy(newWorkoutProvider.getNewWorkout()));
+                    if (widget.index != null) {
+                      final int index = widget.index!;
+                      workoutListProvider
+                          .getWorkoutList()[index]
+                          .replaceWith(newWorkoutProvider.getNewWorkout());
+                    } else {
+                      workoutListProvider.addWorkout(
+                          Workout.copy(newWorkoutProvider.getNewWorkout()));
+                    }
                     newWorkoutProvider.clear();
                     Navigator.pop(context);
                   },
