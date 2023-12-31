@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpleset_app/data/workout_data.dart';
+import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -7,7 +7,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WorkoutData>(
+    return Consumer<WorkoutListProvider>(
         builder: (context, value, child) => Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,

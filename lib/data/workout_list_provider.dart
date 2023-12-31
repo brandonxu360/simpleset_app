@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simpleset_app/models/workout.dart';
 import 'package:simpleset_app/models/exercise.dart';
 
-class WorkoutData extends ChangeNotifier {
+class WorkoutListProvider extends ChangeNotifier {
   /*
 
   WORKOUT DATA STRUCTURE
@@ -29,8 +29,8 @@ class WorkoutData extends ChangeNotifier {
     return workoutList;
   }
 
-  void addWorkout(String name, String date) {
-    workoutList.add(Workout(name: name, date: date, exercises: []));
+  void addWorkout(Workout newWorkout) {
+    workoutList.add(newWorkout);
 
     notifyListeners();
   }

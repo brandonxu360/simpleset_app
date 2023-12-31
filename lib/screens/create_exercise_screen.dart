@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/exercise_tile.dart';
 import 'package:simpleset_app/components/my_back_button.dart';
 import 'package:simpleset_app/components/my_button.dart';
-import 'package:simpleset_app/components/my_textfield.dart';
-import 'package:simpleset_app/data/workout_data.dart';
+import 'package:simpleset_app/components/search_textfield.dart';
+import 'package:simpleset_app/data/workout_list_provider.dart';
+import 'package:simpleset_app/models/exercise.dart';
 import 'package:simpleset_app/screens/add_exercise_sets_screen.dart';
 
 class CreateExercise extends StatefulWidget {
@@ -15,44 +16,51 @@ class CreateExercise extends StatefulWidget {
 }
 
 class _SearchExerciseScreenState extends State<CreateExercise> {
+  List<Exercise> searchResults = [];
+
   TextEditingController exerciseNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WorkoutData>(
-      builder: (context, value, child) => Scaffold(
+    return Consumer<WorkoutListProvider>(builder: (context, value, child) {
+      return Scaffold(
         body: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 50, left: 25, right: 25, bottom: 40),
                 child: Row(children: [
                   const MyBackButton(),
                   const SizedBox(width: 25),
                   Expanded(
-                    child: MyTextField(
-                      hintText: 'Exercise name',
-                      obscureText: false,
-                      controller: exerciseNameController,
-                      showIcon: false,
-                      icon: const Icon(Icons.search),
-                    ),
-                  )
+                      child: SearchTextField(
+                          controller: exerciseNameController,
+                          hintText: 'Name your exercise',
+                          onQueryChanged: (String query) {
+                            setState(() {
+                              if (query.isNotEmpty) {
+                                searchResults = value.exerciseList
+                                    .where((item) => item.name
+                                        .toLowerCase()
+                                        .contains(query.toLowerCase()))
+                                    .toList();
+                              } else {
+                                searchResults.clear();
+                              }
+                            });
+                          }))
                 ])),
-            if (value.exerciseList.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Text('No exercises found...be the first?'),
-              ),
+            if (searchResults.isNotEmpty) const Text('Past exercises'),
             Expanded(
               child: ListView.builder(
-                itemCount: value.exerciseList.length,
+                itemCount: searchResults.length,
                 itemBuilder: (context, index) => ExerciseTile(
-                  exerciseName: value.exerciseList[index].name,
+                  exerciseName: searchResults[index].name,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
               child: MyButton(
                   label: 'Create Exercise',
                   icon: const Icon(Icons.add),
@@ -68,7 +76,7 @@ class _SearchExerciseScreenState extends State<CreateExercise> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

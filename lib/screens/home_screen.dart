@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/go_button.dart';
 import 'package:simpleset_app/components/my_list_tile.dart';
 import 'package:simpleset_app/components/my_textfield.dart';
-import 'package:simpleset_app/data/workout_data.dart';
+import 'package:simpleset_app/data/new_workout_provider.dart';
+import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/screens/new_workout_screen.dart';
+import 'package:simpleset_app/util/helper_functions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,8 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WorkoutData>(
-        builder: (context, value, child) => Scaffold(
+    return Consumer2<WorkoutListProvider, NewWorkoutProvider>(
+        builder: (context, workoutListProvider, newWorkoutProvider, child) =>
+            Scaffold(
                 body: Column(
               children: [
                 Container(
@@ -48,10 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (workoutNameController.text != '') {
                           String workoutName = workoutNameController.text;
                           DateTime date = DateTime.now();
+
+                          newWorkoutProvider.setName(workoutName);
+                          newWorkoutProvider.setDate(formatDateTime(date));
+
                           workoutNameController.clear();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
+                                settings: const RouteSettings(
+                                    name: 'NewWorkoutScreen'),
                                 builder: (context) => NewWorkoutScreen(
                                   workoutName: workoutName,
                                   date: date,
@@ -75,13 +84,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: value.getWorkoutList().length,
+                      itemCount: workoutListProvider.getWorkoutList().length,
                       itemBuilder: (context, index) => MyListTile(
-                            title: value.getWorkoutList()[index].name,
-                            subtitle:
-                                value.getWorkoutList()[index].date.toString(),
+                            title: workoutListProvider
+                                .getWorkoutList()[index]
+                                .name,
+                            subtitle: workoutListProvider
+                                .getWorkoutList()[index]
+                                .date
+                                .toString(),
                             deleteFunction: (context) {
-                              value.deleteWorkout(index);
+                              workoutListProvider.deleteWorkout(index);
                             },
                           )),
                 ),
