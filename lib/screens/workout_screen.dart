@@ -59,12 +59,14 @@ class _NewWorkoutScreenState extends State<WorkoutScreen> {
                 const Spacer(),
                 SaveButton(
                   onTap: () {
+                    // Index is given, an existing workout is being editted
                     if (widget.index != null) {
-                      final int index = widget.index!;
                       workoutListProvider
-                          .getWorkoutList()[index]
+                          .getWorkoutList()[widget.index!]
                           .replaceWith(newWorkoutProvider.getNewWorkout());
-                    } else {
+                    }
+                    // Index is null, we are adding a new workout
+                    else {
                       workoutListProvider.addWorkout(
                           Workout.copy(newWorkoutProvider.getNewWorkout()));
                     }

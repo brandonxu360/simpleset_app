@@ -32,7 +32,6 @@ dependencies:
     sdk: flutter
   provider:
   google_nav_bar:
-  flutter_slidable:
 
 
   # The following adds the Cupertino Icons font to your application.

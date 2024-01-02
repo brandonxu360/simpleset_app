@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simpleset_app/components/exerciseset_tile.dart';
 import 'package:simpleset_app/components/my_button.dart';
 import 'package:simpleset_app/components/num_textfield.dart';
+import 'package:simpleset_app/data/exercise_map_provider.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +35,10 @@ class _AddExerciseScreenState extends State<AddExerciseSetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<WorkoutListProvider, NewWorkoutProvider>(
-      builder: (context, workoutListProvider, newWorkoutProvider, child) =>
+    return Consumer3<WorkoutListProvider, NewWorkoutProvider,
+        ExerciseMapProvider>(
+      builder: (context, workoutListProvider, newWorkoutProvider,
+              exerciseListProvider, child) =>
           Scaffold(
               body: Center(
                   child: Column(

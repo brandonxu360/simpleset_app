@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simpleset_app/data/exercise_map_provider.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/screens/app_wrapper.dart';
@@ -18,7 +19,10 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<WorkoutListProvider>(
             create: (context) => WorkoutListProvider()),
-        ChangeNotifierProvider(create: (context) => NewWorkoutProvider())
+        ChangeNotifierProvider<NewWorkoutProvider>(
+            create: (context) => NewWorkoutProvider()),
+        ChangeNotifierProvider<ExerciseMapProvider>(
+            create: (context) => ExerciseMapProvider())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

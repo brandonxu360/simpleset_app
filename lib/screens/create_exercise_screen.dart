@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/my_back_button.dart';
 import 'package:simpleset_app/components/my_button.dart';
 import 'package:simpleset_app/components/search_textfield.dart';
+import 'package:simpleset_app/data/exercise_map_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
-import 'package:simpleset_app/models/exercise.dart';
 import 'package:simpleset_app/screens/add_exercise_sets_screen.dart';
 
 class CreateExercise extends StatefulWidget {
@@ -15,13 +15,14 @@ class CreateExercise extends StatefulWidget {
 }
 
 class _SearchExerciseScreenState extends State<CreateExercise> {
-  List<Exercise> searchResults = [];
+  List<String> searchResults = [];
 
   TextEditingController exerciseNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WorkoutListProvider>(builder: (context, value, child) {
+    return Consumer2<WorkoutListProvider, ExerciseMapProvider>(
+        builder: (context, workoutListProvider, exerciseMapProvider, child) {
       return Scaffold(
         body: Column(
           children: [
@@ -38,10 +39,13 @@ class _SearchExerciseScreenState extends State<CreateExercise> {
                           onQueryChanged: (String query) {
                             setState(() {
                               if (query.isNotEmpty) {
-                                searchResults = value.exerciseList
-                                    .where((item) => item.name
+                                searchResults = exerciseMapProvider
+                                    .exerciseHistory.entries
+                                    .where((entry) => entry.key
                                         .toLowerCase()
                                         .contains(query.toLowerCase()))
+                                    .map((entry) => entry
+                                        .key) // Extract keys from filtered entries
                                     .toList();
                               } else {
                                 searchResults.clear();
@@ -54,7 +58,7 @@ class _SearchExerciseScreenState extends State<CreateExercise> {
               child: ListView.builder(
                 itemCount: searchResults.length,
                 itemBuilder: (context, index) => ListTile(
-                  title: Text(searchResults[index].name),
+                  title: Text(searchResults[index]),
                 ),
               ),
             ),

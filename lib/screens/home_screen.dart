@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpleset_app/components/go_button.dart';
 import 'package:simpleset_app/components/my_textfield.dart';
-import 'package:simpleset_app/components/wokout_tile.dart';
+import 'package:simpleset_app/components/workout_tile.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_list_provider.dart';
 import 'package:simpleset_app/models/workout.dart';
@@ -23,8 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer2<WorkoutListProvider, NewWorkoutProvider>(
         builder: (context, workoutListProvider, newWorkoutProvider, child) =>
-            Scaffold(
-                body: Column(
+            Column(
               children: [
                 Container(
                   padding: const EdgeInsets.only(top: 25, left: 25, bottom: 5),
@@ -87,19 +86,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Recent workouts',
                   ),
                 ),
-                Expanded(
+                Container(
+                  height: 200,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
                       itemCount: workoutListProvider.getWorkoutList().length,
                       itemBuilder: (context, index) => WorkoutTile(
                             title: workoutListProvider
-                                .getWorkoutList()[index]
+                                .getWorkoutList()[workoutListProvider
+                                        .getWorkoutList()
+                                        .length -
+                                    index -
+                                    1]
                                 .name,
                             subtitle: workoutListProvider
-                                .getWorkoutList()[index]
+                                .getWorkoutList()[workoutListProvider
+                                        .getWorkoutList()
+                                        .length -
+                                    index -
+                                    1]
                                 .date
                                 .toString(),
                             deleteFunction: (context) {
-                              workoutListProvider.deleteWorkout(index);
+                              workoutListProvider.deleteWorkout(
+                                  workoutListProvider.getWorkoutList().length -
+                                      index -
+                                      1);
                             },
                             onTap: () {
                               Navigator.push(
@@ -109,12 +122,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                           name: 'WorkoutScreen'),
                                       builder: (context) => WorkoutScreen(
                                           workout: workoutListProvider
-                                              .getWorkoutList()[index],
+                                                  .getWorkoutList()[
+                                              workoutListProvider
+                                                      .getWorkoutList()
+                                                      .length -
+                                                  index -
+                                                  1],
                                           index: index)));
                             },
                           )),
                 ),
               ],
-            )));
+            ));
   }
 }
