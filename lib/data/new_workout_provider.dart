@@ -1,39 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:simpleset_app/models/exercise.dart';
-import 'package:simpleset_app/models/workout.dart';
-import 'package:simpleset_app/models/exercise_set.dart';
+import 'package:simpleset_app/models/exerciseset.dart';
 
 class NewWorkoutProvider extends ChangeNotifier {
-  /*
+  String _newWorkoutName = '';
+  String get newWorkoutName => _newWorkoutName;
 
-  This class provides the state for the new workout that is postured to be added to the master
-  workout list (see workout_list_provider.dart)
-
-  */
-
-  final Workout _newWorkout = Workout(name: '', date: '', exercises: []);
-
-  Workout getNewWorkout() {
-    return _newWorkout;
-  }
+  // Hold temporary Exercises and ExerciseSets associated with the new Workout
+  final Map<Exercise, Set<ExerciseSet>> newExercisesAndSets = {};
 
   void setName(String name) {
-    _newWorkout.name = name;
-  }
-
-  void setDate(String date) {
-    _newWorkout.date = date;
-  }
-
-  void addExercise(String name, List<ExerciseSet> sets) {
-    _newWorkout.exercises.add(Exercise(name: name, sets: sets));
+    _newWorkoutName = name;
 
     notifyListeners();
   }
 
-  void clear() {
-    _newWorkout.name = '';
-    _newWorkout.date = '';
-    _newWorkout.exercises.clear();
+  void addExercise(Exercise exercise, Iterable<ExerciseSet> exerciseSets) {
+    newExercisesAndSets[exercise] =
+        {}; // Assign an empty list as a value for the exercise key
+
+    for (ExerciseSet exerciseset in exerciseSets) {
+      newExercisesAndSets[exercise]!.add(exerciseset);
+    }
+    notifyListeners();
+  }
+
+  void addExerciseSetToExercise(Exercise exercise, ExerciseSet exerciseSet) {
+    final exerciseSets = newExercisesAndSets[
+        exercise]; // Retrieve the list of exercise sets for the given exercise
+    if (exerciseSets != null) {
+      exerciseSets.add(exerciseSet); // Add the new exercise set to the list
+      notifyListeners();
+    } else {
+      // Handle case where the exercise is not found in the map
+    }
+  }
+
+  void reset() {
+    // Reset _newWorkout to an empty name
+    _newWorkoutName = '';
+
+    // Clear all exercises and exercise sets associated with the workout
+    newExercisesAndSets.clear();
+
+    notifyListeners();
   }
 }

@@ -1,8 +1,18 @@
-import 'exercise_set.dart';
+import 'package:isar/isar.dart';
+import 'package:simpleset_app/models/exerciseset.dart';
 
+part 'exercise.g.dart';
+
+@collection
 class Exercise {
-  final String name;
-  final List<ExerciseSet> sets;
+  Id id = Isar.autoIncrement;
 
-  Exercise({required this.name, required this.sets});
+  @Index()
+  String name;
+
+  int order;
+
+  final exerciseSets = IsarLinks<ExerciseSet>();
+
+  Exercise({required this.name, required this.order});
 }

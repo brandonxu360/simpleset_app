@@ -1,24 +1,18 @@
-import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:simpleset_app/models/exercise.dart';
 
-import 'exercise.dart';
+part 'workout.g.dart';
 
-class Workout extends ChangeNotifier {
+@collection
+class Workout {
+  Id id = Isar.autoIncrement;
+
   String name;
-  String date;
-  List<Exercise> exercises;
 
-  Workout({required this.name, required this.date, required this.exercises});
+  @Index()
+  late DateTime dateTime;
 
-  // Copy constructor
-  Workout.copy(Workout workout)
-      : this(
-            name: workout.name,
-            date: workout.date,
-            exercises: List<Exercise>.from(workout.exercises));
+  Workout({required this.name}) : dateTime = DateTime.now();
 
-  void replaceWith(Workout newWorkout) {
-    name = newWorkout.name;
-    date = newWorkout.date;
-    exercises = List<Exercise>.from(newWorkout.exercises);
-  }
+  final exercises = IsarLinks<Exercise>();
 }

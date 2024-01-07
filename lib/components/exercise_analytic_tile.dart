@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpleset_app/models/exercise_set.dart';
+import 'package:simpleset_app/models/exerciseset.dart';
 
 class ExerciseAnalyticTile extends StatelessWidget {
   // Name, total # sets, average reps, average weight
