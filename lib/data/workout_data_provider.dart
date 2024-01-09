@@ -66,4 +66,14 @@ class WorkoutDataProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  Future<List<Exercise>> queryExerciseWithPrefix(String query) async {
+    final isar = await db;
+
+    return await isar!.exercises
+        .where()
+        .filter()
+        .nameStartsWith(query)
+        .findAll();
+  }
 }

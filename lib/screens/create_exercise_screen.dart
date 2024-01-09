@@ -1,23 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simpleset_app/components/my_back_button.dart';
+import 'package:simpleset_app/components/my_button.dart';
+import 'package:simpleset_app/components/search_textfield.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
+import 'package:simpleset_app/data/workout_data_provider.dart';
+import 'package:simpleset_app/models/exercise.dart';
 
-class CreateExercise extends StatefulWidget {
-  const CreateExercise({super.key});
+class CreateExerciseScreen extends StatefulWidget {
+  const CreateExerciseScreen({super.key});
 
   @override
-  State<CreateExercise> createState() => _SearchExerciseScreenState();
+  State<CreateExerciseScreen> createState() => _CreateExerciseScreenState();
 }
 
-class _SearchExerciseScreenState extends State<CreateExercise> {
-  List<String> searchResults = [];
+class _CreateExerciseScreenState extends State<CreateExerciseScreen> {
+  // List of exercises in database that contains the user input as prefix
+  List<Exercise> queryResults = [];
 
-  TextEditingController exerciseNameController = TextEditingController();
+  final TextEditingController exerciseNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewWorkoutProvider>(builder: (context, value, child) {
-      return Text('Placeholder');
-    });
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        child: Column(children: [
+          Row(children: [
+            MyBackButton(onTap: () => Navigator.pop(context)),
+            const SizedBox(width: 25),
+            Expanded(
+              child: SearchTextField(
+                controller: exerciseNameController,
+                hintText: 'Exercise name',
+                onQueryChanged: (query) async {
+                  if (query.isNotEmpty) {
+                    final results = await Provider.of<WorkoutDataProvider>(
+                      context,
+                      listen: false,
+                    ).queryExerciseWithPrefix(query);
+
+                    setState(() {
+                      queryResults = results;
+                    });
+                  } else {
+                    setState(() {
+                      queryResults.clear();
+                    });
+                  }
+                },
+              ),
+            ),
+          ]),
+
+          // Previous exercise suggestions
+          (queryResults.isNotEmpty)
+              ? Expanded(
+                  child: ListView.builder(
+                      itemCount: queryResults.length,
+                      itemBuilder: (context, index) =>
+                          Text(queryResults[index].name)))
+              : const Expanded(
+                  child: Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Text('Previous exercises will appear here!'),
+                )),
+
+          MyButton(
+              label: 'Create Exercise',
+              icon: const Icon(Icons.add_rounded),
+              onTap: () {
+                final int order =
+                    Provider.of<NewWorkoutProvider>(context, listen: false)
+                        .newExercisesAndSets
+                        .keys
+                        .length;
+                print(order.toString());
+                Provider.of<NewWorkoutProvider>(context, listen: false)
+                    .addExercise(Exercise(
+                        name: exerciseNameController.text, order: order));
+                print('made it to pop');
+                Navigator.pop(context);
+              })
+        ]),
+      ),
+    );
   }
 }

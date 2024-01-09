@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
+class MyTextFormField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final TextEditingController controller;
   final bool showIcon;
   final Icon icon;
 
-  const MyTextField(
+  const MyTextFormField(
       {super.key,
       required this.hintText,
       required this.obscureText,
@@ -17,7 +17,7 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       cursorColor: Theme.of(context).colorScheme.inversePrimary,
       obscureText: obscureText,

@@ -15,7 +15,7 @@ class _AppWrapperState extends State<AppWrapper> {
   int screenIndex = 0;
 
   final screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const AnalyticsScreen(),
     const ProfileScreen()
   ];

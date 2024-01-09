@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_data_provider.dart';
@@ -6,6 +9,13 @@ import 'package:simpleset_app/screens/app_wrapper.dart';
 import 'package:simpleset_app/themes.dart';
 
 void main() {
+// Forces "Back-Home-Recent" Android navigation bar to dark
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black,
+    ));
+  }
+
   runApp(const MainApp());
 }
 
