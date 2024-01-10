@@ -21,6 +21,16 @@ const ExerciseSetSchema = CollectionSchema(
       id: 0,
       name: r'order',
       type: IsarType.long,
+    ),
+    r'reps': PropertySchema(
+      id: 1,
+      name: r'reps',
+      type: IsarType.long,
+    ),
+    r'weight': PropertySchema(
+      id: 2,
+      name: r'weight',
+      type: IsarType.double,
     )
   },
   estimateSize: _exerciseSetEstimateSize,
@@ -53,6 +63,8 @@ void _exerciseSetSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.order);
+  writer.writeLong(offsets[1], object.reps);
+  writer.writeDouble(offsets[2], object.weight);
 }
 
 ExerciseSet _exerciseSetDeserialize(
@@ -63,6 +75,8 @@ ExerciseSet _exerciseSetDeserialize(
 ) {
   final object = ExerciseSet(
     order: reader.readLong(offsets[0]),
+    reps: reader.readLong(offsets[1]),
+    weight: reader.readDouble(offsets[2]),
   );
   object.id = id;
   return object;
@@ -77,6 +91,10 @@ P _exerciseSetDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
+      return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -281,6 +299,122 @@ extension ExerciseSetQueryFilter
       ));
     });
   }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> repsEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'reps',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> repsGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'reps',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> repsLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'reps',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> repsBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'reps',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> weightEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'weight',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition>
+      weightGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'weight',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> weightLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'weight',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterFilterCondition> weightBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'weight',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
 }
 
 extension ExerciseSetQueryObject
@@ -300,6 +434,30 @@ extension ExerciseSetQuerySortBy
   QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> sortByOrderDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> sortByReps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'reps', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> sortByRepsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'reps', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> sortByWeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'weight', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> sortByWeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'weight', Sort.desc);
     });
   }
 }
@@ -329,6 +487,30 @@ extension ExerciseSetQuerySortThenBy
       return query.addSortBy(r'order', Sort.desc);
     });
   }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> thenByReps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'reps', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> thenByRepsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'reps', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> thenByWeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'weight', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QAfterSortBy> thenByWeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'weight', Sort.desc);
+    });
+  }
 }
 
 extension ExerciseSetQueryWhereDistinct
@@ -336,6 +518,18 @@ extension ExerciseSetQueryWhereDistinct
   QueryBuilder<ExerciseSet, ExerciseSet, QDistinct> distinctByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'order');
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QDistinct> distinctByReps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'reps');
+    });
+  }
+
+  QueryBuilder<ExerciseSet, ExerciseSet, QDistinct> distinctByWeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'weight');
     });
   }
 }
@@ -351,6 +545,18 @@ extension ExerciseSetQueryProperty
   QueryBuilder<ExerciseSet, int, QQueryOperations> orderProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'order');
+    });
+  }
+
+  QueryBuilder<ExerciseSet, int, QQueryOperations> repsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'reps');
+    });
+  }
+
+  QueryBuilder<ExerciseSet, double, QQueryOperations> weightProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'weight');
     });
   }
 }

@@ -24,7 +24,6 @@ class NewWorkoutProvider extends ChangeNotifier {
   void setDate(DateTime date) {}
 
   void addExercise(Exercise exercise) {
-    print('in function');
     // Assign an empty list as a value for the exercise key
     final newExercise = <Exercise, Set<ExerciseSet>>{exercise: {}};
     newExercisesAndSets.addEntries(newExercise.entries);
@@ -32,11 +31,14 @@ class NewWorkoutProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addExerciseSetToExercise(Exercise exercise, ExerciseSet exerciseSet) {
-    final exerciseSets = newExercisesAndSets[
+  void addExerciseSetsToExercise(
+      Exercise exercise, Iterable<ExerciseSet> exerciseSets) {
+    final myExerciseSets = newExercisesAndSets[
         exercise]; // Retrieve the list of exercise sets for the given exercise
-    if (exerciseSets != null) {
-      exerciseSets.add(exerciseSet); // Add the new exercise set to the list
+    if (myExerciseSets != null) {
+      for (ExerciseSet exerciseSet in exerciseSets) {
+        myExerciseSets.add(exerciseSet); // Add the new exercise set to the list
+      }
       notifyListeners();
     } else {
       // Handle case where the exercise is not found in the map

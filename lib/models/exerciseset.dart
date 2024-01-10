@@ -8,5 +8,9 @@ class ExerciseSet {
 
   int order;
 
-  ExerciseSet({required this.order});
+  double weight;
+
+  int reps;
+
+  ExerciseSet({required this.order, required this.weight, required this.reps});
 }

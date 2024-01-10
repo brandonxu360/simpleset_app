@@ -6,6 +6,7 @@ import 'package:simpleset_app/components/search_textfield.dart';
 import 'package:simpleset_app/data/new_workout_provider.dart';
 import 'package:simpleset_app/data/workout_data_provider.dart';
 import 'package:simpleset_app/models/exercise.dart';
+import 'package:simpleset_app/screens/exercise_screen.dart';
 
 class CreateExerciseScreen extends StatefulWidget {
   const CreateExerciseScreen({super.key});
@@ -75,12 +76,14 @@ class _CreateExerciseScreenState extends State<CreateExerciseScreen> {
                         .newExercisesAndSets
                         .keys
                         .length;
-                print(order.toString());
-                Provider.of<NewWorkoutProvider>(context, listen: false)
-                    .addExercise(Exercise(
-                        name: exerciseNameController.text, order: order));
-                print('made it to pop');
-                Navigator.pop(context);
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => ExerciseScreen(
+                            exercise: Exercise(
+                                name: exerciseNameController.text,
+                                order: order)))));
               })
         ]),
       ),

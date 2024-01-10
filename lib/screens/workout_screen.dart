@@ -58,7 +58,6 @@ class WorkoutScreen extends StatelessWidget {
                         child: ListView.builder(
                             itemCount: value.newExercisesAndSets.keys.length,
                             itemBuilder: (context, index) {
-                              print(index.toString());
                               // Search for Exercise of correct order (searching for every exercise not efficient?)
                               final Exercise exercise =
                                   value.newExercisesAndSets.keys.firstWhere(
@@ -66,7 +65,7 @@ class WorkoutScreen extends StatelessWidget {
                               return ExerciseTile(
                                   exercise: exercise,
                                   exerciseSets:
-                                      value.newExercisesAndSets[index]);
+                                      value.newExercisesAndSets[exercise]);
                             }),
                       )
                     : const Expanded(

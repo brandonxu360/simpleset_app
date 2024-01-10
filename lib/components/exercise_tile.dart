@@ -30,19 +30,18 @@ class ExerciseTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text('Set#'), Text('Weight'), Text('Reps')],
           ),
-          Column(
-            children: (exerciseSets?.map((exerciseSet) {
-                  // Create a widget for each exercise set
-                  return Row(
-                    children: [
-                      Text(exerciseSet.order.toString()),
-                      Text('Weight'),
-                      Text('Reps')
-                    ], // Customize this row as needed
-                  );
-                }).toList() ??
-                []),
-          )
+          Column(children: [
+            if (exerciseSets != null)
+              for (var exerciseSet in exerciseSets!)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${exerciseSet.order + 1}'),
+                    Text('${exerciseSet.weight}'), // Display weight here
+                    Text('${exerciseSet.reps}'), // Display reps here
+                  ],
+                ),
+          ])
         ],
       ),
     ));
